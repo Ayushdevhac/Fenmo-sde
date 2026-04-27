@@ -12,11 +12,13 @@ datasource db {
 }
 
 model Expense {
-  id          String   @id @default(uuid())
-  amount      Int       // STORED AS CENTS
-  category    String
-  description String
-  date        DateTime
-  createdAt   DateTime @default(now())
+  id             String   @id @default(uuid())
+  idempotencyKey String?  @unique
+  amount         Int       // STORED AS CENTS
+  category       String
+  description    String
+  date           DateTime
+  createdAt      DateTime @default(now())
 }
+
 
