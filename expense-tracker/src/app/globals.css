@@ -11,6 +11,10 @@
   --brand-strong: #0043ce;
   --accent: #00a76f;
   --ring: #7ba8ff;
+  --font-sans:
+    "Space Grotesk", "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    "Geist Mono", "Cascadia Code", "Consolas", "Liberation Mono", monospace;
 }
 
 @theme inline {
@@ -26,7 +30,7 @@ body {
     radial-gradient(900px 400px at 100% 0%, #dcfce7 0%, transparent 70%),
     linear-gradient(180deg, var(--background-soft), var(--background));
   color: var(--foreground);
-  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   min-height: 100vh;
 }
 
@@ -583,4 +587,3 @@ button:focus-visible,
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(148, 163, 184, 0.8);
 }
-

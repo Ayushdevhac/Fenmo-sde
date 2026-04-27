@@ -203,12 +203,13 @@ export default function ExpenseDashboard() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Amount */}
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1.5">Amount</label>
+            <label htmlFor="expense-amount" className="block text-sm font-bold text-slate-700 mb-1.5">Amount</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <span className="text-slate-400 font-bold">$</span>
               </div>
               <input
+                id="expense-amount"
                 type="number"
                 step="0.01"
                 min="0.01"
@@ -224,7 +225,7 @@ export default function ExpenseDashboard() {
           <div className="grid grid-cols-2 gap-4">
             {/* Category */}
             <div className="col-span-2 sm:col-span-1">
-              <label className="block text-sm font-bold text-slate-700 mb-1.5">Category</label>
+              <label htmlFor="expense-category" className="block text-sm font-bold text-slate-700 mb-1.5">Category</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   {(() => {
@@ -233,6 +234,7 @@ export default function ExpenseDashboard() {
                   })()}
                 </div>
                 <select
+                  id="expense-category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="block w-full pl-9 pr-10 py-3 bg-gradient-to-r from-slate-50 to-blue-50/30 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 focus:bg-white transition-all sm:text-sm font-semibold appearance-none shadow-sm hover:border-slate-300 cursor-pointer"
@@ -249,8 +251,9 @@ export default function ExpenseDashboard() {
 
             {/* Date */}
             <div className="col-span-2 sm:col-span-1">
-              <label className="block text-sm font-bold text-slate-700 mb-1.5">Date</label>
+              <label htmlFor="expense-date" className="block text-sm font-bold text-slate-700 mb-1.5">Date</label>
               <input
+                id="expense-date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
@@ -262,8 +265,9 @@ export default function ExpenseDashboard() {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1.5">Description</label>
+            <label htmlFor="expense-description" className="block text-sm font-bold text-slate-700 mb-1.5">Description</label>
             <input
+              id="expense-description"
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}

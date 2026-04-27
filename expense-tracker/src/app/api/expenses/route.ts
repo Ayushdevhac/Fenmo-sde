@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
+import {
+  getOrderBy,
+  isValidCategory,
+  parseCreateExpenseBody,
+} from "@/lib/expense-utils";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,27 +20,17 @@ export async function POST(req: NextRequest) {
     }
 
     const json = await req.json();
-    const { amount, category, description, date } = json;
-
-    if (!amount || amount <= 0) {
-      return NextResponse.json(
-        { error: "Amount must be a positive number" },
-        { status: 400 }
-      );
-    }
-    if (!category || !description || !date) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+    const parsed = parseCreateExpenseBody(json);
+    if (!parsed.ok) {
+      return NextResponse.json({ error: parsed.error }, { status: 400 });
     }
 
     const expense = await prisma.expense.create({
       data: {
-        amount: Math.round(Number(amount) * 100), // Convert to cents
-        category: String(category),
-        description: String(description),
-        date: new Date(date),
+        amount: parsed.data.amountCents,
+        category: parsed.data.category,
+        description: parsed.data.description,
+        date: parsed.data.date,
         idempotencyKey: idempotencyKey || null,
       },
     });
@@ -56,16 +51,12 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get("category");
     const sort = searchParams.get("sort");
 
-    const where = category && category !== "All" ? { category: String(category) } : {};
-
-    let orderBy: { date: "asc" | "desc" } | undefined = undefined;
-    if (sort === "date_desc") {
-      orderBy = { date: "desc" };
-    } else if (sort === "date_asc") {
-      orderBy = { date: "asc" };
-    } else {
-      orderBy = { date: "desc" }; // default
+    if (category && category !== "All" && !isValidCategory(category)) {
+      return NextResponse.json({ error: "Invalid category" }, { status: 400 });
     }
+
+    const where = category && category !== "All" ? { category } : {};
+    const orderBy = getOrderBy(sort);
 
     const expenses = await prisma.expense.findMany({
       where,
