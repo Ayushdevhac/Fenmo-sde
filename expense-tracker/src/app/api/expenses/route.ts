@@ -6,6 +6,8 @@ import {
   parseCreateExpenseBody,
 } from "@/lib/expense-utils";
 
+export const runtime = "nodejs";
+
 export async function POST(req: NextRequest) {
   try {
     const idempotencyKey = req.headers.get("Idempotency-Key");

@@ -8,7 +8,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 model Expense {
@@ -20,5 +20,3 @@ model Expense {
   date           DateTime
   createdAt      DateTime @default(now())
 }
-
-
